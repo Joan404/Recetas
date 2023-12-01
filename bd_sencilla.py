@@ -1,7 +1,7 @@
 import connection, requests
 
 meals = ['main course', 'snack', 'dessert', 'breakfast']
-diets = ['vegetarian', 'omnivore', 'vegan', 'gluten free']
+diets = ['vegetarian', 'omnivore', 'vegan', 'gluten free', 'diary free']
 
 conn = connection.connect()
 
