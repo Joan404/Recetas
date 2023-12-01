@@ -18,13 +18,11 @@ try:
                 ingr = f'{ingr} / {ingrs["originalName"]}'
             ingr.strip()
             ingr = re.sub(r'\"', '', ingr)
-            print(ingr)
-            # string = f'INSERT INTO bbdd (id_recipe, name, ingredients, minutes, servings, instructions, vegan, vegetarian, glutenFree, diaryFree, image) VALUES({data["id"]}, "{data["title"]}", "{ingr}", {data["readyInMinutes"]}, {data["servings"]}, "{data["instructions"]}", {data["vegan"]}, {data["vegetarian"]}, {data["glutenFree"]}, {data["dairyFree"]}, "{data["image"]}");'
+            # print(ingr)
             string = 'INSERT INTO bbdd (id_recipe, name, ingredients, minutes, servings, instructions, vegan, vegetarian, glutenFree, diaryFree, image) VALUES(%d, "%s", "%s", %d, %d, "%s", %s, %s, %s, %s, "%s");' % (data["id"], data["title"], ingr, data["readyInMinutes"], data["servings"], data["instructions"], data["vegan"], data["vegetarian"], data["glutenFree"], data["dairyFree"], data["image"])
             # print(string)
             cur.execute(string)
             conn.commit()
-            # break
             for insts in data['analyzedInstructions'][0]['steps']:
                 ingredient = ''
                 for ingredients in insts['ingredients']:
