@@ -1,4 +1,6 @@
 from tkinter import *
+from tkinter import ttk
+import connection
 
 
 
@@ -66,12 +68,30 @@ boton5=Radiobutton(caracteristicas_frame, text="Todo", variable=option,
 #BOTON GENERADOR
 
 
+conn = connection.connect()
+cur = conn.cursor(buffered=True)
 
 def abrir_ventana_secundaria():
     # Crear una ventana secundaria.
     ventana_secundaria = Toplevel()
     ventana_secundaria.title("Receta semanal")
     ventana_secundaria.config(width=300, height=200)
+
+    if option.get() == 1:
+        cur.execute('SELECT * FROM `bbdd` WHERE vegan = 1 ORDER BY RAND() LIMIT 1')
+        print(cur.fetchall())
+    elif option.get() == 2:
+        cur.execute('SELECT * FROM `bbdd` WHERE vegetarian = 1 ORDER BY RAND() LIMIT 1')
+        print(cur.fetchall())
+    elif option.get() == 3:
+        cur.execute('SELECT * FROM `bbdd` WHERE diaryFree = 1 ORDER BY RAND() LIMIT 1')
+        print(cur.fetchall())
+    elif option.get() == 4:
+        cur.execute('SELECT * FROM `bbdd` WHERE glutenFree = 1 ORDER BY RAND() LIMIT 1')
+        print(cur.fetchall())
+    elif option.get() == 5:
+        cur.execute('SELECT * FROM `bbdd` ORDER BY RAND() LIMIT 1')
+        print(cur.fetchall())
 
 generador= Button(dias_frame, text="Generar menú semanal",font=("Verdana",28),command=abrir_ventana_secundaria)
 generador.pack()
@@ -80,4 +100,5 @@ generador.pack()
 
 main.mainloop()
 
+connection.disconnect(conn)
 
