@@ -6,6 +6,10 @@ main= Tk()
 
 main.title("Proyecto")
 main.config(bg="Brown1")
+main.minsize(850,500)
+main.maxsize(850,500)
+
+
 
 
 
@@ -32,8 +36,8 @@ dias_frame=Frame(right_frame,bd=1,relief=FLAT)
 dias_frame.pack()
 
 
-dias_lbl= Label(dias_frame,font=("Verdana",30),text="Dias",fg="Black")
-dias_lbl.pack()
+# dias_lbl= Label(dias_frame,font=("Verdana",30),text="Dias",fg="Black")
+# dias_lbl.pack()
 
 
 
@@ -43,39 +47,35 @@ dias_lbl.pack()
 
 value=1
 
+option = IntVar()
 
 
-boton1=Radiobutton(caracteristicas_frame, text="Vegano", 
+
+boton1=Radiobutton(caracteristicas_frame, text="Vegano", variable=option,
             value=1,font=("Verdana",28)).pack(anchor=W)
-boton2=Radiobutton(caracteristicas_frame, text="Vegetariano", 
+boton2=Radiobutton(caracteristicas_frame, text="Vegetariano", variable=option,
             value=2,font=("Verdana",28)).pack(anchor=W)
-boton3=Radiobutton(caracteristicas_frame, text="Sin Lactosa",   
+boton3=Radiobutton(caracteristicas_frame, text="Sin Lactosa", variable=option,
             value=3,font=("Verdana",28)).pack(anchor=W)
-boton4=Radiobutton(caracteristicas_frame, text="Gluten-Free",
+boton4=Radiobutton(caracteristicas_frame, text="Gluten-Free", variable=option,
             value=4,font=("Verdana",28)).pack(anchor=W)
-boton5=Radiobutton(caracteristicas_frame, text="Todo",   
+boton5=Radiobutton(caracteristicas_frame, text="Todo", variable=option,
             value=5,font=("Verdana",28)).pack(anchor=W)
 
 
-#BOTONES DIAS
+#BOTON GENERADOR
 
 
-value=2
 
-lunes= Radiobutton(dias_frame, text="Lunes", 
-            value=1,font=("Verdana",28)).pack(anchor=W)
-martes= Radiobutton(dias_frame, text="Martes", 
-            value=2,font=("Verdana",28)).pack(anchor=W)
-miercoles= Radiobutton(dias_frame, text="Miercoles",   
-            value=3,font=("Verdana",28)).pack(anchor=W)
-jueves= Radiobutton(dias_frame, text="Jueves",
-            value=4,font=("Verdana",28)).pack(anchor=W)
-viernes= Radiobutton(dias_frame, text="Viernes",   
-            value=5,font=("Verdana",28)).pack(anchor=W)
-sabado= Radiobutton(dias_frame, text="Sabado",   
-            value=6,font=("Verdana",28)).pack(anchor=W)
-domingo= Radiobutton(dias_frame, text="Domingo",   
-            value=7,font=("Verdana",28)).pack(anchor=W)
+def abrir_ventana_secundaria():
+    # Crear una ventana secundaria.
+    ventana_secundaria = Toplevel()
+    ventana_secundaria.title("Receta semanal")
+    ventana_secundaria.config(width=300, height=200)
+
+generador= Button(dias_frame, text="Generar menú semanal",font=("Verdana",28),command=abrir_ventana_secundaria)
+generador.pack()
+
 
 
 main.mainloop()
