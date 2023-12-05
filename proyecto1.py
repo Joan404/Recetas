@@ -78,20 +78,48 @@ def abrir_ventana_secundaria():
     ventana_secundaria.config(width=300, height=200)
 
     if option.get() == 1:
-        cur.execute('SELECT * FROM `bbdd` WHERE vegan = 1 ORDER BY RAND() LIMIT 1')
-        print(cur.fetchall())
+        condition = 'WHERE vegan = 1'
     elif option.get() == 2:
-        cur.execute('SELECT * FROM `bbdd` WHERE vegetarian = 1 ORDER BY RAND() LIMIT 1')
-        print(cur.fetchall())
+        condition = 'WHERE vegetarian = 1'
     elif option.get() == 3:
-        cur.execute('SELECT * FROM `bbdd` WHERE diaryFree = 1 ORDER BY RAND() LIMIT 1')
-        print(cur.fetchall())
+        condition = 'WHERE diaryFree = 1'
     elif option.get() == 4:
-        cur.execute('SELECT * FROM `bbdd` WHERE glutenFree = 1 ORDER BY RAND() LIMIT 1')
-        print(cur.fetchall())
+        condition = 'WHERE glutenFree = 1'
     elif option.get() == 5:
-        cur.execute('SELECT * FROM `bbdd` ORDER BY RAND() LIMIT 1')
-        print(cur.fetchall())
+        condition = ''
+
+    listLunch = ['Almuerzo']
+    listBreakfast = ['Desayuno']
+    listDinner = ['Cena']
+    listSnack = ['Merienda']
+
+    ListDishes = ['breakfast' ,'main course', 'snack', 'main course']
+
+    table = ttk.Treeview(ventana_secundaria, columns=('', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'), show='headings')
+    table.heading('Lunes', text = 'Lunes')
+    table.heading('Martes', text = 'Martes')
+    table.heading('Miercoles', text = 'Miercoles')
+    table.heading('Jueves', text = 'Jueves')
+    table.heading('Viernes', text = 'Viernes')
+    table.heading('Sabado', text = 'Sabado')
+    table.heading('Domingo', text = 'Domingo')
+    table.pack(fill = 'both', expand = True)
+
+    for i in range(4):
+        condition = condition + f' AND type = "{ListDishes[i]}"'
+        print(condition)
+        for j in range(8):
+            cur.execute(f'SELECT id FROM `bbdd` {condition} ORDER BY RAND() LIMIT 1')
+            id = cur.fetchall()[0][0]
+            cur.execute(f'SELECT name FROM bbdd WHERE id = {id}')
+            name = cur.fetchall()[0][0]
+            print(name)
+            listLunch.append(name)
+            
+        table.insert(parent='', index=i, values=(listLunch))
+
+    
+    
 
 generador= Button(dias_frame, text="Generar menú semanal",font=("Verdana",28),command=abrir_ventana_secundaria)
 generador.pack()
