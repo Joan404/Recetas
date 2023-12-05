@@ -16,6 +16,16 @@ try:
             if data['instructions'] != None:
                 if not data.get('image'):
                     data['image'] = ''
+                dish = ''
+                for types in data['dishTypes']:
+                    if types == 'main course':
+                        dish = 'main course'
+                    elif types == 'breakfast':
+                        dish = 'breakfast'
+                    elif types == 'dessert':
+                        dish = 'dessert'
+                    elif types == 'snack':
+                        dish = 'snack'
                 ingr = ''
                 for ingrs in data['extendedIngredients']:
                     ingr = f'{ingr} / {ingrs["originalName"]}'
@@ -23,12 +33,13 @@ try:
                 ingr = re.sub(r'\"', '', ingr)
                 ins = re.sub(r'\"', '', data['instructions'])
                 title = re.sub(r'\"', '', data['title'])
-                string = 'INSERT INTO bbdd (id_recipe, name, ingredients, minutes, servings, instructions, vegan, vegetarian, glutenFree, diaryFree, image) VALUES(%d, "%s", "%s", %d, %d, "%s", %s, %s, %s, %s, "%s");' % (data["id"], title, ingr, data["readyInMinutes"], data["servings"], ins, data["vegan"], data["vegetarian"], data["glutenFree"], data["dairyFree"], data["image"])
+                string = 'INSERT INTO bbdd (id_recipe, name, type, ingredients, minutes, servings, instructions, vegan, vegetarian, glutenFree, diaryFree, image) VALUES(%d, "%s", "%s", "%s", %d, %d, "%s", %s, %s, %s, %s, "%s");' % (data["id"], title, dish, ingr, data["readyInMinutes"], data["servings"], ins, data["vegan"], data["vegetarian"], data["glutenFree"], data["dairyFree"], data["image"])
                 # print(string)
                 cur.execute(string)
                 conn.commit()
                 for insts in data['analyzedInstructions'][0]['steps']:
                     ingredient = ''
+                    step = ''
                     for ingredients in insts['ingredients']:
                         step = re.sub(r'\"', '', insts["step"])
                         ingredient = f'{ingredient}, {ingredients["name"]}'
