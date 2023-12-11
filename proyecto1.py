@@ -3,16 +3,12 @@ from tkinter import ttk
 import connection
 
 
-
 main= Tk()
 
 main.title("Raku")
 main.config(bg="Tan1")
 main.minsize(450,500)
 main.maxsize(450,500)
-
-
-
 
 
 top_frame = Frame(main,bd=2,relief=FLAT)
@@ -34,37 +30,15 @@ caracteristicas_frame.pack()
 caracteristicas_frame_lbl = Label(caracteristicas_frame,font=("Verdana",30),text="Caracteristicas",bg="burlywood",fg="Black",relief=FLAT)
 caracteristicas_frame_lbl.pack(side=TOP)
 
-# dias_frame=Frame(right_frame,bd=1,relief=RAISED)
-# dias_frame.pack()
-
-
-# # dias_lbl= Label(dias_frame,font=("Verdana",30),text="Dias",fg="Black")
-# # dias_lbl.pack()
-
-
 #BOTON GENERADOR
-
-
-def abrir_ventana_secundaria():
-    # Crear una ventana secundaria.
-    ventana_secundaria = Toplevel()
-    ventana_secundaria.title("Receta semanal")
-    ventana_secundaria.config(width=300, height=200)
-    
-generador= Button(caracteristicas_frame,bg="Tan1",fg="Black",text="Generar menú semanal",font=("Verdana",28),command=abrir_ventana_secundaria,state= DISABLED)
-generador.pack(side=BOTTOM)
 
 def activar_boton():
     generador.config(state=ACTIVE,bg="Tan1",fg="Black")
     
 #BOTONES DE CARACTERISTICAS
 
-
 value=0
-
 option = IntVar()
-
-
 
 boton1=Radiobutton(caracteristicas_frame, text="Vegano", variable=option,command=activar_boton,bg="burlywood2",
             value=1,font=("Verdana",28)).pack(anchor=W)
@@ -78,8 +52,7 @@ boton5=Radiobutton(caracteristicas_frame, text="Todo", variable=option,command=a
             value=5,font=("Verdana",28)).pack(anchor=W)
 
 
-#BOTON GENERADOR
-
+# VENTANA SECUNDARIA
 
 conn = connection.connect()
 cur = conn.cursor(buffered=True)
@@ -219,9 +192,10 @@ def abrir_ventana_secundaria():
     label_cena.grid(row=4, column=0)
 
 
-generador= Button(dias_frame, text="Generar menú semanal",font=("Verdana",28),command=abrir_ventana_secundaria)
-generador.pack()
+# BOTTON GENERADOR
 
+generador= Button(caracteristicas_frame,bg="Tan1",fg="Black",text="Generar menú semanal",font=("Verdana",28),command=abrir_ventana_secundaria,state= DISABLED)
+generador.pack(side=BOTTOM)
 
 
 main.mainloop()
