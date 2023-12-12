@@ -11,8 +11,8 @@ main.minsize(450,500)
 main.maxsize(450,500)
 
 
-top_frame = Frame(main,bd=2,relief=FLAT)
-left_frame = Frame(main,bd=1,relief=FLAT)
+top_frame = Frame(main,bd=2,relief=FLAT,bg="Tan1")
+left_frame = Frame(main,bd=1,relief=FLAT,bg="burlywood2")
 right_frame = Frame(main,bd=1,relief=FLAT)
 
 
@@ -61,7 +61,7 @@ def abrir_ventana_secundaria():
     # Crear una ventana secundaria.
     ventana_secundaria = Toplevel()
     ventana_secundaria.title("Receta semanal")
-    ventana_secundaria.config(width=300, height=200)
+    ventana_secundaria.config(width=300, height=200, bg="Tan1")
 
     if option.get() == 1:
         condition = 'AND vegan = 1'
@@ -78,7 +78,8 @@ def abrir_ventana_secundaria():
     listDishes = ['breakfast' ,'main course', 'snack', 'main course']
     listDays = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
     dicIds = dict()
-
+    dict_name_dishes = {}
+    main_course_contador= 0
     for day in listDays:
         for dish in listDishes:
             cur.execute(f'SELECT id FROM `bbdd` WHERE type = "{dish}" {condition} ORDER BY RAND() LIMIT 1')
@@ -87,96 +88,116 @@ def abrir_ventana_secundaria():
                 dicIds[f'{day}_{dish}2'] = id
             else:
                 dicIds[f'{day}_{dish}'] = id
+
+            cur.execute(f'SELECT name FROM `bbdd` WHERE type = "{dish}" {condition} ORDER BY RAND() LIMIT 1')
+            name = cur.fetchall()[0][0]
+            # print (name)
+
+            clave_plato=""
+            if dish =='main course' and main_course_contador == 0:
+                main_course_contador = 1
+                clave_plato= day + "_" + dish + "_1"
+            elif dish =='main course' and main_course_contador == 1:
+                main_course_contador = 0
+                clave_plato= day + "_" + dish + "_2"
+            else:
+                clave_plato= day + "_" + dish
+
+                
+            # print(clave_plato)
+            dict_name_dishes[clave_plato]= name
+            
+    # print (dict_name_dishes)
     # print(dicIds)
 
     def details(button):
         # print(dicIds[button])
         ventana_detalles = Toplevel()
         ventana_detalles.title("Details")
-        ventana_detalles.config(width=300, height=200)
-
+        ventana_detalles.config(width=300, height=200, bg="Tan1")
+        
         cur.execute(f'SELECT name FROM `bbdd` WHERE id = {dicIds[button]}')
         name = cur.fetchall()[0][0]
         print(name)
 
         pass
+    
+    button_lunes_main1 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["lunes_main course_1"],bg="burlywood2", command=lambda:details('lunes_main course'),wraplength=100)
+    button_martes_main1 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["martes_main course_1"],bg="burlywood2", command=lambda:details('martes_main course'),wraplength=100)
+    button_miercoles_main1 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["miercoles_main course_1"],bg="burlywood2", command=lambda:details('miercoles_main course'),wraplength=100)
+    button_jueves_main1 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["jueves_main course_1"],bg="burlywood2", command=lambda:details('jueves_main course'),wraplength=100)
+    button_viernes_main1 = Button(ventana_secundaria, height=5,width=30, text=dict_name_dishes["viernes_main course_1"],bg="burlywood2", command=lambda:details('viernes_main course'),wraplength=100)
+    button_sabado_main1 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["sabado_main course_1"],bg="burlywood2", command=lambda:details('sabado_main course'),wraplength=100)
+    button_domingo_main1 = Button(ventana_secundaria, height=5,width=30, text=dict_name_dishes["domingo_main course_1"],bg="burlywood2", command=lambda:details('domingo_main course'),wraplength=100)
 
-    button_lunes_main1 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('lunes_main course'))
-    button_martes_main1 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('martes_main course'))
-    button_miercoles_main1 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('miercoles_main course'))
-    button_jueves_main1 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('jueves_main course'))
-    button_viernes_main1 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('viernes_main course'))
-    button_sabado_main1 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('sabado_main course'))
-    button_domingo_main1 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('domingo_main course'))
+    button_lunes_main2 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["lunes_main course_2"],bg="burlywood2", command=lambda:details('lunes_main course2'),wraplength=100)
+    button_martes_main2 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["martes_main course_2"],bg="burlywood2", command=lambda:details('martes_main course2'),wraplength=100)
+    button_miercoles_main2 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["miercoles_main course_2"],bg="burlywood2", command=lambda:details('miercoles_main course2'),wraplength=100)
+    button_jueves_main2 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["jueves_main course_2"],bg="burlywood2", command=lambda:details('jueves_main course2'),wraplength=100)
+    button_viernes_main2 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["viernes_main course_2"],bg="burlywood2", command=lambda:details('viernes_main course2'),wraplength=100)
+    button_sabado_main2 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["sabado_main course_2"],bg="burlywood2", command=lambda:details('sabado_main course'),wraplength=100)
+    button_domingo_main2 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["domingo_main course_2"],bg="burlywood2", command=lambda:details('domingo_main course'),wraplength=100)
 
-    button_lunes_main2 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('lunes_main course2'))
-    button_martes_main2 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('martes_main course2'))
-    button_miercoles_main2 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('miercoles_main course2'))
-    button_jueves_main2 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('jueves_main course2'))
-    button_viernes_main2 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('viernes_main course2'))
-    button_sabado_main2 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('sabado_main course'))
-    button_domingo_main2 = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('domingo_main course'))
+    button_lunes_breakfast = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["lunes_breakfast"],bg="burlywood2", command=lambda:details('lunes_breakfast'),wraplength=100)
+    button_martes_breakfast = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["martes_breakfast"],bg="burlywood2", command=lambda:details('martes_breakfast'),wraplength=100)
+    button_miercoles_breakfast = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["miercoles_breakfast"],bg="burlywood2", command=lambda:details('miercoles_breakfast'),wraplength=100)
+    button_jueves_breakfast = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["jueves_breakfast"],bg="burlywood2", command=lambda:details('jueves_breakfast'),wraplength=100)
+    button_viernes_breakfast = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["viernes_breakfast"],bg="burlywood2", command=lambda:details('viernes_breakfast'),wraplength=100)
+    button_sabado_breakfast = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["sabado_breakfast"],bg="burlywood2", command=lambda:details('sabado_breakfast'),wraplength=100)
+    button_domingo_breakfast = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["domingo_breakfast"],bg="burlywood2", command=lambda:details('domingo_breakfast'),wraplength=100)
 
-    button_lunes_breakfast = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('lunes_breakfast'))
-    button_martes_breakfast = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('martes_breakfast'))
-    button_miercoles_breakfast = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('miercoles_breakfast'))
-    button_jueves_breakfast = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('jueves_breakfast'))
-    button_viernes_breakfast = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('viernes_breakfast'))
-    button_sabado_breakfast = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('sabado_breakfast'))
-    button_domingo_breakfast = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('domingo_breakfast'))
+    button_lunes_snack = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["lunes_snack"],bg="burlywood2", command=lambda:details('lunes_snack'),wraplength=100)
+    button_martes_snack = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["martes_snack"],bg="burlywood2", command=lambda:details('martes_snack'),wraplength=100)
+    button_miercoles_snack = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["miercoles_snack"],bg="burlywood2", command=lambda:details('miercoles_snack'),wraplength=100)
+    button_jueves_snack = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["jueves_snack"],bg="burlywood2", command=lambda:details('jueves_snack'),wraplength=100)
+    button_viernes_snack = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["viernes_snack"],bg="burlywood2", command=lambda:details('viernes_snack'),wraplength=100)
+    button_sabado_snack = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["sabado_snack"],bg="burlywood2", command=lambda:details('sabado_snack'),wraplength=100)
+    button_domingo_snack = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["domingo_snack"],bg="burlywood2", command=lambda:details('domingo_snack'),wraplength=100)
 
-    button_lunes_snack = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('lunes_snack'))
-    button_martes_snack = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('martes_snack'))
-    button_miercoles_snack = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('miercoles_snack'))
-    button_jueves_snack = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('jueves_snack'))
-    button_viernes_snack = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('viernes_snack'))
-    button_sabado_snack = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('sabado_snack'))
-    button_domingo_snack = Button(ventana_secundaria, width=10, text='Detalles', command=lambda:details('domingo_snack'))
+    button_lunes_breakfast.grid(row=1, column=1,padx=10,pady=5)
+    button_martes_breakfast.grid(row=1, column=2,padx=10,pady=5)
+    button_miercoles_breakfast.grid(row=1, column=3,padx=10,pady=5)
+    button_jueves_breakfast.grid(row=1, column=4,padx=10,pady=5)
+    button_viernes_breakfast.grid(row=1, column=5,padx=10,pady=5)
+    button_sabado_breakfast.grid(row=1, column=6,padx=10,pady=5)
+    button_domingo_breakfast.grid(row=1, column=7,padx=10,pady=5)
 
-    button_lunes_breakfast.grid(row=1, column=1)
-    button_martes_breakfast.grid(row=1, column=2)
-    button_miercoles_breakfast.grid(row=1, column=3)
-    button_jueves_breakfast.grid(row=1, column=4)
-    button_viernes_breakfast.grid(row=1, column=5)
-    button_sabado_breakfast.grid(row=1, column=6)
-    button_domingo_breakfast.grid(row=1, column=7)
+    button_lunes_main1.grid(row=2, column=1,padx=10,pady=5)
+    button_martes_main1.grid(row=2, column=2,padx=10,pady=5)
+    button_miercoles_main1.grid(row=2, column=3,padx=10,pady=5)
+    button_jueves_main1.grid(row=2, column=4,padx=10,pady=5)
+    button_viernes_main1.grid(row=2, column=5,padx=10,pady=5)
+    button_sabado_main1.grid(row=2, column=6,padx=10,pady=5)
+    button_domingo_main1.grid(row=2, column=7,padx=10,pady=5)
 
-    button_lunes_main1.grid(row=2, column=1)
-    button_martes_main1.grid(row=2, column=2)
-    button_miercoles_main1.grid(row=2, column=3)
-    button_jueves_main1.grid(row=2, column=4)
-    button_viernes_main1.grid(row=2, column=5)
-    button_sabado_main1.grid(row=2, column=6)
-    button_domingo_main1.grid(row=2, column=7)
+    button_lunes_snack.grid(row=3, column=1,padx=10,pady=5)
+    button_martes_snack.grid(row=3, column=2,padx=10,pady=5)
+    button_miercoles_snack.grid(row=3, column=3,padx=10,pady=5)
+    button_jueves_snack.grid(row=3, column=4,padx=10,pady=5)
+    button_viernes_snack.grid(row=3, column=5,padx=10,pady=5)
+    button_sabado_snack.grid(row=3, column=6,padx=10,pady=5)
+    button_domingo_snack.grid(row=3, column=7,padx=10,pady=5)
 
-    button_lunes_snack.grid(row=3, column=1)
-    button_martes_snack.grid(row=3, column=2)
-    button_miercoles_snack.grid(row=3, column=3)
-    button_jueves_snack.grid(row=3, column=4)
-    button_viernes_snack.grid(row=3, column=5)
-    button_sabado_snack.grid(row=3, column=6)
-    button_domingo_snack.grid(row=3, column=7)
+    button_lunes_main2.grid(row=4, column=1,padx=10,pady=5)
+    button_martes_main2.grid(row=4, column=2,padx=10,pady=5)
+    button_miercoles_main2.grid(row=4, column=3,padx=10,pady=5)
+    button_jueves_main2.grid(row=4, column=4,padx=10,pady=5)
+    button_viernes_main2.grid(row=4, column=5,padx=10,pady=5)
+    button_sabado_main2.grid(row=4, column=6,padx=10,pady=5)
+    button_domingo_main2.grid(row=4, column=7,padx=10,pady=5)
 
-    button_lunes_main2.grid(row=4, column=1)
-    button_martes_main2.grid(row=4, column=2)
-    button_miercoles_main2.grid(row=4, column=3)
-    button_jueves_main2.grid(row=4, column=4)
-    button_viernes_main2.grid(row=4, column=5)
-    button_sabado_main2.grid(row=4, column=6)
-    button_domingo_main2.grid(row=4, column=7)
+    label_lunes = Label(ventana_secundaria, text='Lunes', bg="Tan1",font=20)
+    label_martes = Label(ventana_secundaria, text='Martes', bg="Tan1",font=20)
+    label_miercoles = Label(ventana_secundaria, text='Miercoles', bg="Tan1",font=20)
+    label_jueves = Label(ventana_secundaria, text='Jueves', bg="Tan1",font=20)
+    label_viernes = Label(ventana_secundaria, text='Viernes', bg="Tan1",font=20)
+    label_sabado = Label(ventana_secundaria, text='Sabado', bg="Tan1",font=20)
+    label_domingo = Label(ventana_secundaria, text='Domingo', bg="Tan1",font=20)
 
-    label_lunes = Label(ventana_secundaria, text='Lunes')
-    label_martes = Label(ventana_secundaria, text='Martes')
-    label_miercoles = Label(ventana_secundaria, text='Miercoles')
-    label_jueves = Label(ventana_secundaria, text='Jueves')
-    label_viernes = Label(ventana_secundaria, text='Viernes')
-    label_sabado = Label(ventana_secundaria, text='Sabado')
-    label_domingo = Label(ventana_secundaria, text='Domingo')
-
-    label_desayuno = Label(ventana_secundaria, text='Desayuno')
-    label_almuerzo = Label(ventana_secundaria, text='Almuerzo')
-    label_snack = Label(ventana_secundaria, text='Merienda')
-    label_cena = Label(ventana_secundaria, text='Cena')
+    label_desayuno = Label(ventana_secundaria, text='Desayuno', bg="Tan1",font=20)
+    label_almuerzo = Label(ventana_secundaria, text='Almuerzo', bg="Tan1",font=20)
+    label_snack = Label(ventana_secundaria, text='Merienda', bg="Tan1",font=20)
+    label_cena = Label(ventana_secundaria, text='Cena', bg="Tan1",font=20)
 
     label_lunes.grid(row=0, column=1)
     label_martes.grid(row=0, column=2)
