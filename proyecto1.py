@@ -111,17 +111,42 @@ def abrir_ventana_secundaria():
     # print(dicIds)
 
     def details(button):
-        # print(dicIds[button])
+        print(dicIds[button])
         ventana_detalles = Toplevel()
         ventana_detalles.title("Details")
         ventana_detalles.config(width=300, height=200, bg="Tan1")
         
         cur.execute(f'SELECT name FROM `bbdd` WHERE id = {dicIds[button]}')
         name = cur.fetchall()[0][0]
-        print(name)
+        label_name = Label(ventana_detalles, text=name)
+        label_name.grid(row=0, column=0)
+        
+        cur.execute(f'SELECT ingredients FROM `bbdd` WHERE id = {dicIds[button]}')
+        ingredients = cur.fetchall()[0][0]
+        label_ingredients = Label(ventana_detalles, text=ingredients, justify=LEFT, width=200, anchor=W)
+        label_ingredients.grid(row=1, column=0)
 
-        pass
-    
+        cur.execute(f'SELECT instructions FROM `bbdd` WHERE id = {dicIds[button]}')
+        instruction = cur.fetchall()[0][0]
+        label_instructions = Label(ventana_detalles, text=instruction, wraplength=1000, justify='left', width=200, anchor=W)
+        label_instructions.grid(row=2, column=0)
+
+        cur.execute(f'SELECT minutes FROM `bbdd` WHERE id = {dicIds[button]}')
+        mins = cur.fetchall()[0][0]
+        label_mins = Label(ventana_detalles, text=mins, width=200, justify=LEFT, anchor=W)
+        label_mins.grid(row=3, column=0)
+
+        cur.execute(f'SELECT servings FROM `bbdd` WHERE id = {dicIds[button]}')
+        servs = cur.fetchall()[0][0]
+        label_servs = Label(ventana_detalles, text=servs, width=200, justify=LEFT, anchor=W)
+        label_servs.grid(row=4, column=0)
+
+        # cur.execute(f'SELECT servings FROM `bbdd` WHERE id = {dicIds[button]}')
+        # servs = cur.fetchall()[0][0]
+        # label_servs = Label(ventana_detalles, text=servs, width=200, justify=LEFT, anchor=W)
+        # label_servs.grid(row=4, column=0)
+
+            
     button_lunes_main1 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["lunes_main course_1"],bg="burlywood2", command=lambda:details('lunes_main course'),wraplength=100)
     button_martes_main1 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["martes_main course_1"],bg="burlywood2", command=lambda:details('martes_main course'),wraplength=100)
     button_miercoles_main1 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["miercoles_main course_1"],bg="burlywood2", command=lambda:details('miercoles_main course'),wraplength=100)
