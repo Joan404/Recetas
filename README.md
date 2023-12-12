@@ -15,6 +15,7 @@ CREATE TABLE db_sencilla(
     done BOOLEAN DEFAULT false
     PRIMARY KEY (id)
 );
+
 CREATE TABLE bbdd(
     id INT AUTO_INCREMENT,
     id_recipe INT UNIQUE,
@@ -30,6 +31,7 @@ CREATE TABLE bbdd(
     image VARCHAR(255)
     PRIMARY KEY (id)
 );
+
 CREATE TABLE recipe_steps(
 	id INT AUTO_INCREMENT,
     recipe_id INT NOT NULL,
