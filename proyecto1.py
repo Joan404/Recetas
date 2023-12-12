@@ -122,24 +122,21 @@ def abrir_ventana_secundaria():
         cur.execute(f'SELECT ingredients FROM `bbdd` WHERE id = {dicIds[button]}')
         ingredients = cur.fetchall()[0][0]
         ingredients = re.sub(r'^ / ', '', ingredients)
-        print(ingredients)
         label_ings = Label(ventana_detalles, text='Ingredientes:', bg='burlywood2', justify=LEFT, font='bold', width=96, anchor=W)
         label_ings.grid(row=1, column=0, padx=20)
         label_ingredients = Label(ventana_detalles, text=ingredients, wraplength=1000, justify=LEFT, width=151, anchor=W,bg="burlywood2")
         label_ingredients.grid(row=2, column=0, pady=(0,10))
 
-        cur.execute(f'SELECT instructions FROM `bbdd` WHERE id = {dicIds[button]}')
-        instruction = cur.fetchall()[0][0]
-        instruction = re.sub(r'<li>', '', instruction)
-        instruction = re.sub(r'</li>', '', instruction)
-        instruction = re.sub(r'<ol>', '', instruction)
-        instruction = re.sub(r'</ol>', '', instruction)
-        instruction = re.sub(r'<p>', '', instruction)
-        instruction = re.sub(r'</p>', '', instruction)
-        instruction = re.sub(r'<br>', '', instruction)
-        instruction = re.sub(r'\n\n', '\n', instruction)
-        instruction = re.sub(r'<span>', '', instruction)
-        instruction = re.sub(r'</span>', '', instruction)
+        cur.execute(f'SELECT id_recipe FROM `bbdd` WHERE id = {dicIds[button]}')
+        recipe_id = cur.fetchall()[0][0]
+        cur.execute(f'SELECT instruction FROM `recipe_steps` WHERE recipe_id = {recipe_id}')
+        instruction = ''
+        for ins in cur.fetchall():
+            print(ins[0])
+            instruction = instruction + '\n' + ins[0]
+        instruction = re.sub(r'(\n)+', '\n', instruction)
+        instruction = re.sub(r'^\n', '', instruction)
+        instruction = re.sub(r'\n$', '', instruction)
         label_ins = Label(ventana_detalles, text='Instrucciones:', bg='burlywood2', justify=LEFT, font='bold', width=96, anchor=W)
         label_ins.grid(row=3, column=0, padx=20)
         label_instructions = Label(ventana_detalles, text=instruction, wraplength=1000, justify='left', width=151, anchor=W,bg="burlywood2")
