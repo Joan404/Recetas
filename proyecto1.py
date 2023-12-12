@@ -89,7 +89,7 @@ def abrir_ventana_secundaria():
             else:
                 dicIds[f'{day}_{dish}'] = id
 
-            cur.execute(f'SELECT name FROM `bbdd` WHERE type = "{dish}" {condition} AND id = {id}')
+            cur.execute(f'SELECT name FROM `bbdd` WHERE id = {id}')
             name = cur.fetchall()[0][0]
             # print (name)
 
@@ -103,12 +103,8 @@ def abrir_ventana_secundaria():
             else:
                 clave_plato= day + "_" + dish
 
-                
-            # print(clave_plato)
             dict_name_dishes[clave_plato]= name
             
-    # print (dict_name_dishes)
-    # print(dicIds)
 
     def details(button):
         print(dicIds[button])
@@ -170,7 +166,6 @@ def abrir_ventana_secundaria():
         # label_servs = Label(ventana_detalles, text=servs, width=200, justify=LEFT, anchor=W)
         # label_servs.grid(row=4, column=0)
 
-            
     button_lunes_main1 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["lunes_main course_1"],bg="burlywood2", command=lambda:details('lunes_main course'),wraplength=100)
     button_martes_main1 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["martes_main course_1"],bg="burlywood2", command=lambda:details('martes_main course'),wraplength=100)
     button_miercoles_main1 = Button(ventana_secundaria,height=5, width=30, text=dict_name_dishes["miercoles_main course_1"],bg="burlywood2", command=lambda:details('miercoles_main course'),wraplength=100)
