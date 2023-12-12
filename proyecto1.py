@@ -114,31 +114,33 @@ def abrir_ventana_secundaria():
         print(dicIds[button])
         ventana_detalles = Toplevel()
         ventana_detalles.title("Details")
-        ventana_detalles.config(width=300, height=200, bg="Tan1")
-        
+        ventana_detalles.config(width=1100, height=200, bg="Tan1")
+        ventana_detalles.maxsize(width=1100, height=300)
+
+
         cur.execute(f'SELECT name FROM `bbdd` WHERE id = {dicIds[button]}')
         name = cur.fetchall()[0][0]
-        label_name = Label(ventana_detalles, text=name)
+        label_name = Label(ventana_detalles, text=name,bg='Tan1',font=40, anchor=CENTER)
         label_name.grid(row=0, column=0)
         
         cur.execute(f'SELECT ingredients FROM `bbdd` WHERE id = {dicIds[button]}')
         ingredients = cur.fetchall()[0][0]
-        label_ingredients = Label(ventana_detalles, text=ingredients, justify=LEFT, width=200, anchor=W)
+        label_ingredients = Label(ventana_detalles, text=ingredients, wraplength=1000, justify=LEFT, width=200, anchor=W,bg="burlywood2")
         label_ingredients.grid(row=1, column=0)
 
         cur.execute(f'SELECT instructions FROM `bbdd` WHERE id = {dicIds[button]}')
         instruction = cur.fetchall()[0][0]
-        label_instructions = Label(ventana_detalles, text=instruction, wraplength=1000, justify='left', width=200, anchor=W)
+        label_instructions = Label(ventana_detalles, text=instruction, wraplength=1000, justify='left', width=200, anchor=W,bg="burlywood2")
         label_instructions.grid(row=2, column=0)
 
         cur.execute(f'SELECT minutes FROM `bbdd` WHERE id = {dicIds[button]}')
         mins = cur.fetchall()[0][0]
-        label_mins = Label(ventana_detalles, text=mins, width=200, justify=LEFT, anchor=W)
+        label_mins = Label(ventana_detalles, text=mins, width=200, justify=LEFT, anchor=W,bg="burlywood2")
         label_mins.grid(row=3, column=0)
 
         cur.execute(f'SELECT servings FROM `bbdd` WHERE id = {dicIds[button]}')
         servs = cur.fetchall()[0][0]
-        label_servs = Label(ventana_detalles, text=servs, width=200, justify=LEFT, anchor=W)
+        label_servs = Label(ventana_detalles, text=servs, width=200, justify=LEFT, anchor=W,bg="burlywood2")
         label_servs.grid(row=4, column=0)
 
         # cur.execute(f'SELECT servings FROM `bbdd` WHERE id = {dicIds[button]}')
