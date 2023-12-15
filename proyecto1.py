@@ -97,7 +97,6 @@ def abrir_ventana_secundaria():
             # name = ts.translate_text(name, to_language='es')
 
     nom = ts.translate_text(name, to_language='es')
-    # print(name)
     count = 1
 
     for day in listDays:
@@ -123,6 +122,7 @@ def abrir_ventana_secundaria():
         ventana_detalles.title("Details")
         ventana_detalles.config(width=1100, height=200, bg="Tan1")
         ventana_detalles.maxsize(width=1100, height=800)
+        letra = ('verdana', 13)
 
         cur.execute(f'SELECT name FROM `bbdd` WHERE id = {dicIds[button]}')
         name = cur.fetchall()[0][0]
@@ -136,7 +136,7 @@ def abrir_ventana_secundaria():
         ingredients = ts.translate_text(ingredients, to_language='es')
         label_ings = Label(ventana_detalles, text='Ingredientes:', bg='burlywood2', justify=LEFT, font='bold', width=96, anchor=W)
         label_ings.grid(row=1, column=0, padx=20)
-        label_ingredients = Label(ventana_detalles, text=ingredients, wraplength=1000, justify=LEFT, width=151, anchor=W,bg="burlywood2")
+        label_ingredients = Label(ventana_detalles, text=ingredients, wraplength=1000, justify=LEFT, width=96, anchor=W,bg="burlywood2", font=letra)
         label_ingredients.grid(row=2, column=0, pady=(0,10))
 
         cur.execute(f'SELECT id_recipe FROM `bbdd` WHERE id = {dicIds[button]}')
@@ -151,7 +151,7 @@ def abrir_ventana_secundaria():
         instruction = ts.translate_text(instruction, to_language='es')
         label_ins = Label(ventana_detalles, text='Instrucciones:', bg='burlywood2', justify=LEFT, font='bold', width=96, anchor=W)
         label_ins.grid(row=3, column=0, padx=20)
-        label_instructions = Label(ventana_detalles, text=instruction, wraplength=1000, justify='left', width=151, anchor=W,bg="burlywood2")
+        label_instructions = Label(ventana_detalles, text=instruction, wraplength=1000, justify='left', width=96, anchor=W,bg="burlywood2", font=letra)
         label_instructions.grid(row=4, column=0, pady=(0,10))
 
         cur.execute(f'SELECT minutes FROM `bbdd` WHERE id = {dicIds[button]}')
@@ -159,7 +159,7 @@ def abrir_ventana_secundaria():
         mins = mins, 'minutos'
         label_time = Label(ventana_detalles, text='Tiempo:', bg='burlywood2', justify=LEFT, font='bold', width=96, anchor=W)
         label_time.grid(row=5, column=0, padx=20)
-        label_mins = Label(ventana_detalles, text=mins, width=151, justify=LEFT, anchor=W,bg="burlywood2")
+        label_mins = Label(ventana_detalles, text=mins, width=96, justify=LEFT, anchor=W,bg="burlywood2", font=letra)
         label_mins.grid(row=6, column=0, padx=20, pady=(0,10))
 
         cur.execute(f'SELECT vegan, vegetarian, glutenFree, diaryFree FROM `bbdd` WHERE id = {dicIds[button]}')
@@ -178,7 +178,7 @@ def abrir_ventana_secundaria():
                     text_label = text_label + 'sin lactosa'
 
         text_label = re.sub(r', $', '', text_label)
-        Label(ventana_detalles, text=text_label, width=151, justify=LEFT, anchor=W,bg="burlywood2" ).grid(row=8, column=0, padx=20, pady=(0,10))
+        Label(ventana_detalles, text=text_label, width=96, justify=LEFT, anchor=W,bg="burlywood2", font=letra).grid(row=8, column=0, padx=20, pady=(0,10))
 
         # cur.execute(f'SELECT servings FROM `bbdd` WHERE id = {dicIds[button]}')
         # servs = cur.fetchall()[0][0]
@@ -190,7 +190,7 @@ def abrir_ventana_secundaria():
 
     fuente=("Verdana",13) 
     ancho=15
-    altura=5    
+    altura=5
     button_lunes_main1 = Button(ventana_secundaria,height=altura, width=ancho, text=dict_name_dishes["lunes_main course_1"],bg="burlywood2", command=lambda:details('lunes_main course'),wraplength=170, font=fuente)
     button_martes_main1 = Button(ventana_secundaria,height=altura, width=ancho, text=dict_name_dishes["martes_main course_1"],bg="burlywood2",command=lambda:details('martes_main course'),wraplength=170,font=fuente)
     button_miercoles_main1 = Button(ventana_secundaria,height=altura, width=ancho, text=dict_name_dishes["miercoles_main course_1"],bg="burlywood2", command=lambda:details('miercoles_main course'),wraplength=170,font=fuente)
