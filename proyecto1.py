@@ -133,8 +133,14 @@ def abrir_ventana_secundaria():
 
         cur.execute(f'SELECT minutes FROM `bbdd` WHERE id = {dicIds[button]}')
         mins = cur.fetchall()[0][0]
-        label_mins = Label(ventana_detalles, text=mins, width=200, justify=LEFT, anchor=W)
-        label_mins.grid(row=3, column=0)
+        mins = mins, 'minutos'
+        label_time = Label(ventana_detalles, text='Tiempo:', bg='burlywood2', justify=LEFT, font='bold', width=96, anchor=W)
+        label_time.grid(row=5, column=0, padx=20)
+        label_mins = Label(ventana_detalles, text=mins, width=151, justify=LEFT, anchor=W,bg="burlywood2")
+        label_mins.grid(row=6, column=0, padx=20, pady=(0,10))
+
+        cur.execute(f'SELECT vegan, vegetarian, glutenFree, diaryFree FROM `bbdd` WHERE id = {dicIds[button]}')
+        print(cur.fetchall())
 
         cur.execute(f'SELECT servings FROM `bbdd` WHERE id = {dicIds[button]}')
         servs = cur.fetchall()[0][0]
