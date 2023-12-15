@@ -97,7 +97,7 @@ def abrir_ventana_secundaria():
             # name = ts.translate_text(name, to_language='es')
 
     nom = ts.translate_text(name, to_language='es')
-    print(name)
+    # print(name)
     count = 1
 
     for day in listDays:
