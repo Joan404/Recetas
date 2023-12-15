@@ -142,11 +142,6 @@ def abrir_ventana_secundaria():
         cur.execute(f'SELECT vegan, vegetarian, glutenFree, diaryFree FROM `bbdd` WHERE id = {dicIds[button]}')
         print(cur.fetchall())
 
-        cur.execute(f'SELECT servings FROM `bbdd` WHERE id = {dicIds[button]}')
-        servs = cur.fetchall()[0][0]
-        label_servs = Label(ventana_detalles, text=servs, width=200, justify=LEFT, anchor=W)
-        label_servs.grid(row=4, column=0)
-
         # cur.execute(f'SELECT servings FROM `bbdd` WHERE id = {dicIds[button]}')
         # servs = cur.fetchall()[0][0]
         # label_servs = Label(ventana_detalles, text=servs, width=200, justify=LEFT, anchor=W)
