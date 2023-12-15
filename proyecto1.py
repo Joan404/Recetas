@@ -81,6 +81,8 @@ def abrir_ventana_secundaria():
     dicIds = dict()
     dict_name_dishes = {}
     main_course_contador= 0
+    nom = ''
+    name = ''
     for day in listDays:
         for dish in listDishes:
             cur.execute(f'SELECT id FROM `bbdd` WHERE type = "{dish}" {condition} ORDER BY RAND() LIMIT 1')
@@ -91,9 +93,16 @@ def abrir_ventana_secundaria():
                 dicIds[f'{day}_{dish}'] = id
 
             cur.execute(f'SELECT name FROM `bbdd` WHERE id = {id}')
-            name = cur.fetchall()[0][0]
-            name = ts.translate_text(name, to_language='es')
-            # print (name)
+            name = name + ';' + cur.fetchall()[0][0]
+            # name = ts.translate_text(name, to_language='es')
+
+    nom = ts.translate_text(name, to_language='es')
+    print(name)
+    count = 1
+
+    for day in listDays:
+        for dish in listDishes:
+            no= nom.split(';')
 
             clave_plato=""
             if dish =='main course' and main_course_contador == 0:
@@ -105,7 +114,8 @@ def abrir_ventana_secundaria():
             else:
                 clave_plato= day + "_" + dish
 
-            dict_name_dishes[clave_plato]= name
+            dict_name_dishes[clave_plato]= no[count]
+            count += 1
             
 
     def details(button):
